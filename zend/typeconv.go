@@ -238,8 +238,11 @@ func ArgValuesFromPhp_p(fn interface{}, args []unsafe.Pointer, ismth bool) (argv
 		aiv := FROMCIP(args[aidx])
 		if aiv != nil {
 			if !reflect.TypeOf(aiv).ConvertibleTo(aty) {
-				println(aty.Name())
-				println(reflect.TypeOf(aiv).Name())
+				log.Println(aty.Name())
+				log.Println(reflect.TypeOf(aiv).Name())
+				log.Println(reflect.TypeOf(aiv).Elem().Kind().String())
+				log.Println("hi")
+				log.Println(reflect.ValueOf(aiv).Elem().Kind().String())
 				log.Panicln("can't convert ", reflect.TypeOf(aiv).Kind().String(), aty.Kind().String(),
 					aty.Elem().Kind(), reflect.TypeOf(aiv).AssignableTo(aty), reflect.TypeOf(aiv).Elem().Kind().String())
 			}
