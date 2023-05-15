@@ -31,8 +31,8 @@ const (
 	PHPTY_IS_CONSTANT     = C.IS_CONSTANT
 	PHPTY_IS_CONSTANT_AST = C.IS_CONSTANT_AST
 	PHPTY_IS_CALLABLE     = C.IS_CALLABLE
-    PHPTY_IS_SELF         = C.IS_SELF
-    PHPTY_IS_INTERFACE    = C.IS_ZVAL
+	PHPTY_IS_SELF         = C.IS_SELF
+	PHPTY_IS_INTERFACE    = C.IS_ZVAL
 
 	PHPTY_IS_CONSTANT_TYPE_MASK    = 0x00f
 	PHPTY_IS_CONSTANT_UNQUALIFIED  = 0x010
@@ -136,9 +136,9 @@ func RetType2Php(fn interface{}) (rety int) {
 			rety = PHPTY_IS_RESOURCE
 		case reflect.Slice, reflect.Array, reflect.Map:
 			rety = PHPTY_IS_ARRAY
-        case reflect.Interface:
-            // 尝试支持返回interface
-            rety = PHPTY_IS_INTERFACE
+		case reflect.Interface:
+			// 尝试支持返回interface
+			rety = PHPTY_IS_INTERFACE
 		default:
 			log.Panicln("wtf", fty.Out(0).String(), fty.Out(0).Kind().String())
 		}
@@ -238,8 +238,10 @@ func ArgValuesFromPhp_p(fn interface{}, args []unsafe.Pointer, ismth bool) (argv
 		aiv := FROMCIP(args[aidx])
 		if aiv != nil {
 			if !reflect.TypeOf(aiv).ConvertibleTo(aty) {
+				println(aty.Name())
+				println(reflect.TypeOf(aiv).Name())
 				log.Panicln("can't convert ", reflect.TypeOf(aiv).Kind().String(), aty.Kind().String(),
-					aty.Elem().Kind(), reflect.TypeOf(aiv).AssignableTo(aty), reflect.TypeOf(aiv).Elem().Kind())
+					aty.Elem().Kind(), reflect.TypeOf(aiv).AssignableTo(aty), reflect.TypeOf(aiv).Elem().Kind().String())
 			}
 			argv[idx] = reflect.ValueOf(aiv).Convert(aty)
 		} else {
